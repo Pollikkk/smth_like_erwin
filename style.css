@@ -1,0 +1,156 @@
+body{
+    background-color: rgb(254, 242, 213);
+}
+
+#create{
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+}
+
+#control{
+    position: fixed;
+    width: 20%;
+    height: 100%;
+    margin-right: px;
+}
+
+#field{
+    margin-left: 20%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    height: 100%;
+    justify-content: space-around;
+}
+
+#field>div{
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+#convert{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+#name_t{
+    width: 98%;
+}
+
+table{
+    background-color: rgb(183, 171, 133);
+    border-collapse: collapse;
+   /*убираем пустые промежутки между ячейками*/
+    border-radius: 10px;
+    /*border: 2px solid rgb(75, 66, 36);*/
+}
+
+th, td {
+    border: 2px solid rgb(254, 242, 213);
+ }
+
+ table + button{
+    background-color:#428f58;
+    font-size: 21px;
+    font-weight: bold;
+    color: #d5ff87;
+    padding: 5px 10px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:5px;
+    box-shadow: 0px 0px 2px 2px #428f58;
+ }
+
+ table + button:hover{
+    background-color:#1cdf53;
+    font-size: 21px;
+    font-weight: bold;
+    color: #d5ff87;
+    padding: 5px 10px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:5px;
+    box-shadow: 0px 0px 2px 2px #1cdf53;
+ }
+
+
+ #btn_add{
+    background-color:#d2a23c;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fffb87;
+    padding: 5px 10px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:5px;
+ }
+
+ #btn_add:hover{
+    background-color:#d89a14;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fffb87;
+    padding: 5px 10px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:5px;
+ }
+
+
+ #btn_conv{
+    background-color:#d2a23c;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fffb87;
+    padding: 5px 10px;
+    text-size-adjust: 40px;
+    border:2px #d2823c;;
+    border-radius:5px;
+ }
+
+ #btn_conv:hover{
+    background-color:#d89a14;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fffb87;
+    padding: 5px 10px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:5px;
+ }
+
+
+ #btn_del_row{
+    background-color:#a12828;
+    font-size: 21px;
+    font-weight: bold;
+    color: #e0e0df;
+    padding: 0px 8px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:10px;
+    box-shadow: 0px 0px 2px 2px #a12828;
+ }
+
+ #btn_del_row:hover{
+    background-color:#f50b0b;
+    font-size: 21px;
+    font-weight: bold;
+    color: #e0e0df;
+    padding: 0px 8px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:10px;
+    box-shadow: 0px 0px 2px 2px #f50b0b;
+ }
+
+
+tr td:last-child{
+    background-color:rgb(254, 242, 213);
+}
+
+tr th:last-child{
+    background-color:rgb(254, 242, 213);
+}
