@@ -152,6 +152,7 @@ function DelRow(e){     //Подумать: может стоит пересчи
 function Sql(){
     let allInp = d.getElementsByTagName("input");   //раскрашивает красные (незаполненные) до этого поля в белый, если они заполнены
     let allSel = d.getElementsByTagName("select");
+    let tables = d.getElementsByTagName("div");
 
     if(allInp!=null){
         for(let i=0; i<allInp.length; i++){
@@ -161,6 +162,11 @@ function Sql(){
     if(allSel!=null){
         for(let i=0; i<allSel.length; i++){
             allSel[i].style.backgroundColor = "rgb(255, 255, 255)";
+        }
+    }
+    if(tables!=null){
+        for(let i=0; i<tables.length; i++){
+            tables[i].style.boxShadow = "";
         }
     }
 
@@ -228,7 +234,7 @@ function Sql(){
                 let td3 = d.getElementsByName("dataType["+i+"]["+j+"]")[0]; 
                 let td4 = d.getElementsByName("pk["+i+"]["+j+"]")[0]; 
 
-                sql_code += '   ' + td1.value + ' ' + td3.options[td3.selectedIndex].text;
+                sql_code += "\u00a0\u00a0\u00a0\u00a0" + td1.value + ' ' + td3.options[td3.selectedIndex].text;
 
                 if(td4.checked){
                     pk_s.push(td1.value);
@@ -244,13 +250,13 @@ function Sql(){
             }
             sql_code += '\nCREATE UNIQUE INDEX XPK'+name_tab.value+' ON '+ name_tab.value+'\n(';
             for(let i=0; i<pk_s.length; i++){   //если все хорошо
-                sql_code += '\n  '+pk_s[i]+' ASC';
+                sql_code += '\n'+"\u00a0\u00a0\u00a0\u00a0"+pk_s[i]+' ASC';
             }
             sql_code += '\n);\n';
 
             sql_code += '\nALTER TABLE ' + name_tab.value;
             for(let i=0; i<pk_s.length; i++){   
-                sql_code += '\n  ADD CONSTRAINT XPK'+name_tab.value+' PRIMARY KEY ('+pk_s[i]+');';
+                sql_code += '\n'+"\u00a0\u00a0\u00a0\u00a0"+'ADD CONSTRAINT XPK'+name_tab.value+' PRIMARY KEY ('+pk_s[i]+');';
             }
 
         }
