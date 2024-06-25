@@ -211,8 +211,10 @@ function Sql(){
 
         //если все данные заполнены генерируем sql-код:
         let sql_code='';
+        
         //получаем поля таблиц
         for(let i=0; i<last_id.length; i++){
+            let pk_s = [];  //тут будем помечать pk
             let tab = d.getElementById("t["+ i + "]");  //получили таблицу
             let name_tab = d.getElementById("name_table["+i+"]"); 
             if(tab!=null){
@@ -227,8 +229,30 @@ function Sql(){
                 let td4 = d.getElementsByName("pk["+i+"]["+j+"]")[0]; 
 
                 sql_code += '   ' + td1.value + ' ' + td3.options[td3.selectedIndex].text;
+
+                if(td4.checked){
+                    pk_s.push(td1.value);
+                }
             }
-            sql_code += '\n);' ;
+            sql_code += '\n);\n' ;
+            //перебираем pk
+            if(pk_s.length == 0){   //если забыли указать, выходим
+                alert("Вы забыли указать PK");
+                //подсветить...
+                tab.style.boxShadow = '0 0 20px red';
+                return;
+            }
+            sql_code += '\nCREATE UNIQUE INDEX XPK'+name_tab.value+' ON '+ name_tab.value+'\n(';
+            for(let i=0; i<pk_s.length; i++){   //если все хорошо
+                sql_code += '\n  '+pk_s[i]+' ASC';
+            }
+            sql_code += '\n);\n';
+
+            sql_code += '\nALTER TABLE ' + name_tab.value;
+            for(let i=0; i<pk_s.length; i++){   
+                sql_code += '\n  ADD CONSTRAINT XPK'+name_tab.value+' PRIMARY KEY ('+pk_s[i]+');';
+            }
+
         }
 
         alert(sql_code);    //надо бы сделать нормальный вывод кода (мб в канве)
