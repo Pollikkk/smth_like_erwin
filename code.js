@@ -3,13 +3,18 @@ let f = d.getElementById("field");
 num_last_id = 0;
 let last_id = [];   //{"table": 0, "line": 0} подсчет строк в таблице 
 
+all_datatypes = {};
+all_datatypes.datetime = ["DATE", "DATETIME DAY TO DAY", "DATETIME DAY TO FRACTION", "DATETIME DAY TO FRACTION()", "DATETIME DAY TO HOUR", "DATETIME DAY TO SECOND", "DATETIME FRACTION TO FRACTION", "INTERVAL YEAR TO MONTH()", "INTERVAL YEAR()", "TIME"];
+all_datatypes.num = ["BOOLEAN","BYTE","DECIMAL()","FLOAT","HUGE", "INTEGER", "INTERVAL", "LONG","NUMBER","NUMERIC"];
+all_datatypes.str = ["CHAR","CHAR()","LONG TEXT()","NCHAR()","NVARCHAR()","TEXT","TEXT()","VARCHAR()"];
+
 
 function Table(){
     let div = d.createElement("div");
     div.id = "t[" + num_last_id + "]";    // № таблицы
 
     let name_t = d.createElement("div");
-    name_t.innerHTML = '<input id="name_t" type="text" name="name_table['+num_last_id+']">';
+    name_t.innerHTML = '<input class="name_t" id="name_table['+num_last_id+']" type="text" name="name_table['+num_last_id+']">';
 
     let table = d.createElement("table");
     last_id.push({table: num_last_id, line: 0});
@@ -82,23 +87,19 @@ function Row(e){
     row.appendChild(td5);
      
     // добавляем поля в ячейки
-    td1.innerHTML = '<input type="text" name="name['+last_id[num].line+']">';
-    td2.innerHTML = '<select id="type" name="dataType['+last_id[num].line+']"><option value="0">--Please choose an option--</option><option value="datetime">Datetime</option><option value="num">Number</option><option value="str">String</option></select>';
+    td1.innerHTML = '<input type="text" name="name['+ last_id[num].table +']['+last_id[num].line+']">';
+    td2.innerHTML = '<select id="type" name="Type['+ last_id[num].table +']['+last_id[num].line+']"><option value="0">--Please choose an option--</option><option value="datetime">Datetime</option><option value="num">Number</option><option value="str">String</option></select>';
 
 
-    td3.innerHTML = '<select id="datatype" name="dataType['+last_id[num].line+']" disabled><option value="0">--Please choose an option--</option></select>';
+    td3.innerHTML = '<select id="datatype" name="dataType['+ last_id[num].table +']['+last_id[num].line+']" disabled><option value="0">--Please choose an option--</option></select>';
     
-    td4.innerHTML = '<input type="checkbox" name="pk['+ last_id[num].line +']" value="'+ num +" " +last_id[num].line+'">';
+    td4.innerHTML = '<input type="checkbox" name="pk['+ last_id[num].table +']['+ last_id[num].line +']" value="'+ num +" " +last_id[num].line+'">';
     //у кнопки удаления ряда будет value = № таблицы + " " + № строки
     //td5.innerHTML = '<button id="btn_del_row" value='+ num +" " +last_id[num].line+' type="button" onclick="DelRow()">-</button>';
 
     //редактирование выпадающего списка
     let type = document.querySelectorAll("#type")[document.querySelectorAll("#type").length - 1];
     let datatype = document.querySelectorAll("#datatype")[document.querySelectorAll("#datatype").length - 1];
-    all_datatypes = {};
-    all_datatypes.datetime = ["DATE", "DATETIME DAY TO DAY", "DATETIME DAY TO FRACTION", "DATETIME DAY TO FRACTION()", "DATETIME DAY TO HOUR", "DATETIME DAY TO SECOND", "DATETIME FRACTION TO FRACTION", "INTERVAL YEAR TO MONTH()", "INTERVAL YEAR()", "TIME"];
-    all_datatypes.num = ["BOOLEAN","BYTE","DECIMAL()","FLOAT","HUGE", "INTEGER", "INTERVAL", "LONG","NUMBER","NUMERIC"];
-    all_datatypes.str = ["CHAR","CHAR()","LONG TEXT()","NCHAR()","NVARCHAR()","TEXT","TEXT()","VARCHAR()"];
 
     type.onchange = function(){
         datatype.disabled = false;
@@ -118,8 +119,6 @@ function Row(e){
             datatype.disabled=true;
         }
     }
-    /*if(type != null){
-    }*/
 
 
     
@@ -146,4 +145,53 @@ function DelRow(e){     //Подумать: может стоит пересчи
 
     let delRow = d.getElementById("row[" + num_t + "][" + num_r + "]");
     delRow.remove();
+}
+
+
+//Перевод в sql-код
+function Sql(){
+    if(f.innerHTML == ''){
+        alert("Рабочее поле пусто!");
+        return;
+    }
+    else{
+        //Проверка на пустые поля в таблице
+        let Err = 0;//флаг, указывающий есть ли ошибка
+        
+        for(let i=0; i<last_id.length; i++){
+            let tab = d.getElementById("t["+ i + "]");  //получили таблицу
+            let name_tab = d.getElementById("name_table["+i+"]");   
+            //name_tab.style.backgroundColor = "rgb(244, 123, 123)";
+            if(name_tab.value == ''){   //проверяем название таблицы
+                name_tab.style.backgroundColor = "rgb(244, 123, 123)";
+                Err = 1;
+            }
+            //alert(last_id[i]["line"]);
+            for(let j=0; j<last_id[i]["line"]; j++){  //проверяем поля таблиц
+                let td1 = d.getElementsByName("name["+i+"]["+j+"]")[0];
+                let td2 = d.getElementsByName("Type["+i+"]["+j+"]")[0];
+                let td3 = d.getElementsByName("dataType["+i+"]["+j+"]")[0]; 
+                if(td1.value == ''){  
+                    td1.style.backgroundColor = "rgb(244, 123, 123)";
+                    Err = 1;
+                }
+                if(td2.value == "0"){  
+                    td2.style.backgroundColor = "rgb(244, 123, 123)";
+                    Err = 1;
+                }
+                if(td3.value == "0"){  
+                    td3.style.backgroundColor = "rgb(244, 123, 123)";
+                    Err = 1;
+                }
+            }
+        }
+
+        if(Err==1){
+            return;
+        }
+
+        //если все данные заполнены генерируем sql-код:
+        
+
+    }
 }
