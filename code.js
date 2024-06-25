@@ -136,7 +136,7 @@ function Row(e){
 
 
 function DelRow(e){     //Подумать: может стоит пересчитывать строки после удаления и менять их id?
-                        //Либо ничего не пересчитывать, но вести в конце (при коныертации) контроль над существованием ячейки
+                        //Либо ничего не пересчитывать, но вести в конце (при конвертации) контроль над существованием ячейки
     let num = e.target.value.split(" ");
     let num_t = num[0];
     //alert(num_t);
@@ -171,27 +171,50 @@ function Sql(){
                 let td1 = d.getElementsByName("name["+i+"]["+j+"]")[0];
                 let td2 = d.getElementsByName("Type["+i+"]["+j+"]")[0];
                 let td3 = d.getElementsByName("dataType["+i+"]["+j+"]")[0]; 
-                if(td1.value == ''){  
-                    td1.style.backgroundColor = "rgb(244, 123, 123)";
-                    Err = 1;
-                }
-                if(td2.value == "0"){  
-                    td2.style.backgroundColor = "rgb(244, 123, 123)";
-                    Err = 1;
-                }
-                if(td3.value == "0"){  
-                    td3.style.backgroundColor = "rgb(244, 123, 123)";
-                    Err = 1;
+                if(td1!=null){
+                    if(td1.value == ''){  
+                        td1.style.backgroundColor = "rgb(244, 123, 123)";
+                        Err = 1;
+                    }
+                    if(td2.value == "0"){  
+                        td2.style.backgroundColor = "rgb(244, 123, 123)";
+                        Err = 1;
+                    }
+                    if(td3.value == "0"){  
+                        td3.style.backgroundColor = "rgb(244, 123, 123)";
+                        Err = 1;
+                    }
                 }
             }
         }
 
-        if(Err==1){
+        if(Err==1){ //выходим, если есть хоть одна незаполненная ячейка
+            alert("Есть незаполненные поля!");
             return;
         }
 
         //если все данные заполнены генерируем sql-код:
-        
+        let sql_code='';
+        //получаем поля таблиц
+        for(let i=0; i<last_id.length; i++){
+            let tab = d.getElementById("t["+ i + "]");  //получили таблицу
+            let name_tab = d.getElementById("name_table["+i+"]"); 
+            if(tab!=null){
+                sql_code += 'CREATE TABLE ' + name_tab.value + '\n(\n' ;
+            }
+            else{continue;}
+              
+            for(let j=0; j<last_id[i]["line"]; j++){  //проверяем поля таблиц
+                let td1 = d.getElementsByName("name["+i+"]["+j+"]")[0];
+                let td2 = d.getElementsByName("Type["+i+"]["+j+"]")[0];
+                let td3 = d.getElementsByName("dataType["+i+"]["+j+"]")[0]; 
+                let td4 = d.getElementsByName("pk["+i+"]["+j+"]")[0]; 
 
+                sql_code += '   ' + td1.value + ' ' + td3.options[td3.selectedIndex].text;
+            }
+            sql_code += ');' ;
+        }
+
+        alert(sql_code);
     }
 }
