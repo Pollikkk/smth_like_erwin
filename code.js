@@ -150,6 +150,22 @@ function DelRow(e){     //Подумать: может стоит пересчи
 
 //Перевод в sql-код
 function Sql(){
+    let allInp = d.getElementsByTagName("input");   //раскрашивает красные (незаполненные) до этого поля в белый, если они заполнены
+    let allSel = d.getElementsByTagName("select");
+
+    if(allInp!=null){
+        for(let i=0; i<allInp.length; i++){
+            allInp[i].style.backgroundColor = "rgb(255, 255, 255)";
+        }
+    }
+    if(allSel!=null){
+        for(let i=0; i<allSel.length; i++){
+            allSel[i].style.backgroundColor = "rgb(255, 255, 255)";
+        }
+    }
+
+
+    //проверка, есть ли вообще хоть 1 таблица
     if(f.innerHTML == ''){
         alert("Рабочее поле пусто!");
         return;
@@ -212,9 +228,9 @@ function Sql(){
 
                 sql_code += '   ' + td1.value + ' ' + td3.options[td3.selectedIndex].text;
             }
-            sql_code += ');' ;
+            sql_code += '\n);' ;
         }
 
-        alert(sql_code);
+        alert(sql_code);    //надо бы сделать нормальный вывод кода (мб в канве)
     }
 }
