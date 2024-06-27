@@ -9,6 +9,16 @@ all_datatypes.num = ["BOOLEAN","BYTE","DECIMAL()","FLOAT","HUGE", "INTEGER", "IN
 all_datatypes.str = ["CHAR","CHAR()","LONG TEXT()","NCHAR()","NVARCHAR()","TEXT","TEXT()","VARCHAR()"];
 
 
+// создаём модальное окно
+const modal = new ItcModal({
+    title: 'sql-код',
+    content: '',
+    //footerButtons: [
+    //  { class: 'btn btn-close', text: 'Закрыть', action: 'close' },
+    //]
+  });
+
+
 function Table(){
     let div = d.createElement("div");
     div.id = "t[" + num_last_id + "]";    // № таблицы
@@ -234,7 +244,7 @@ function Sql(){
                 let td3 = d.getElementsByName("dataType["+i+"]["+j+"]")[0]; 
                 let td4 = d.getElementsByName("pk["+i+"]["+j+"]")[0]; 
 
-                sql_code += "\u00a0\u00a0\u00a0\u00a0" + td1.value + ' ' + td3.options[td3.selectedIndex].text;
+                sql_code += "\u00a0\u00a0\u00a0\u00a0" + td1.value + ' ' + td3.options[td3.selectedIndex].text + '\n';
 
                 if(td4.checked){
                     pk_s.push(td1.value);
@@ -256,11 +266,16 @@ function Sql(){
 
             sql_code += '\nALTER TABLE ' + name_tab.value;
             for(let i=0; i<pk_s.length; i++){   
-                sql_code += '\n'+"\u00a0\u00a0\u00a0\u00a0"+'ADD CONSTRAINT XPK'+name_tab.value+' PRIMARY KEY ('+pk_s[i]+');';
+                sql_code += '\n'+"\u00a0\u00a0\u00a0\u00a0"+'ADD CONSTRAINT XPK'+name_tab.value+' PRIMARY KEY ('+pk_s[i]+');\n\n';
             }
 
         }
 
-        alert(sql_code);    //надо бы сделать нормальный вывод кода (мб в канве)
+        //alert(sql_code);    //надо бы сделать нормальный вывод кода (мб в канве)
+
+        // добавляем содкржимое при открытии модального окна
+        modal.setBody(`<div style='white-space:pre'> ${sql_code}</div>`);
+        // откроем модальное окно
+        modal.show();
     }
 }
