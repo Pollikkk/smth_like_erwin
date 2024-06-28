@@ -270,3 +270,25 @@ tr th:last-child{
     border-bottom-right-radius: 0.3rem;
     border-bottom-left-radius: 0.3rem;
   }
+
+  .btn-copy{
+    background-color:#d2a23c;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fffb87;
+    padding: 5px 10px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:5px;
+  }
+
+  .btn-copy:hover{
+    background-color:#d89a14;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fffb87;
+    padding: 5px 10px;
+    text-size-adjust: 40px;
+    border:none;
+    border-radius:5px;
+ }
