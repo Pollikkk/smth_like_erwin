@@ -258,11 +258,11 @@ function Sql(){
                 tab.style.boxShadow = '0 0 20px red';
                 return;
             }
-            sql_code += '\nCREATE UNIQUE INDEX XPK'+name_tab.value+' ON '+ name_tab.value+'\n(';
+            /*sql_code += '\nCREATE UNIQUE INDEX XPK'+name_tab.value+' ON '+ name_tab.value+'\n(';
             for(let i=0; i<pk_s.length; i++){   //если все хорошо
                 sql_code += '\n'+"\u00a0\u00a0\u00a0\u00a0"+pk_s[i]+' ASC';
             }
-            sql_code += '\n);\n';
+            sql_code += '\n);\n';*/
 
             sql_code += '\nALTER TABLE ' + name_tab.value;
             for(let i=0; i<pk_s.length; i++){   
@@ -280,7 +280,7 @@ function Sql(){
         document.addEventListener('click', (e) => {
             // при клике по кнопке копировать
             if (e.target.closest('[data-action="copy"]')) {
-                navigator.clipboard.writeText(d.getElementById("sql_code").innerText);
+                navigator.clipboard.writeText(sql_code);    //d.getElementById("sql_code").innerText
             }
           });
 
