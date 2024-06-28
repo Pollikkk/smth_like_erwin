@@ -13,9 +13,9 @@ all_datatypes.str = ["CHAR","CHAR()","LONG TEXT()","NCHAR()","NVARCHAR()","TEXT"
 const modal = new ItcModal({
     title: 'sql-код',
     content: '',
-    //footerButtons: [
-    //  { class: 'btn btn-close', text: 'Закрыть', action: 'close' },
-    //]
+    footerButtons: [
+      { class: 'btn btn-copy', text: 'Копировать', action: 'copy' },
+    ]
   });
 
 
@@ -274,7 +274,16 @@ function Sql(){
         //alert(sql_code);    //надо бы сделать нормальный вывод кода (мб в канве)
 
         // добавляем содкржимое при открытии модального окна
-        modal.setBody(`<div style='white-space:pre'> ${sql_code}</div>`);
+        modal.setBody(`<div id='sql_code' style='white-space:pre'> ${sql_code}</div>`);
+
+        //добавляем действие для кнопки копировать
+        document.addEventListener('click', (e) => {
+            // при клике по кнопке копировать
+            if (e.target.closest('[data-action="copy"]')) {
+                navigator.clipboard.writeText(d.getElementById("sql_code").innerText);
+            }
+          });
+
         // откроем модальное окно
         modal.show();
     }
