@@ -244,11 +244,14 @@ function Sql(){
                 let td3 = d.getElementsByName("dataType["+i+"]["+j+"]")[0]; 
                 let td4 = d.getElementsByName("pk["+i+"]["+j+"]")[0]; 
 
-                sql_code += "\u00a0\u00a0\u00a0\u00a0" + td1.value + ' ' + td3.options[td3.selectedIndex].text + '\n';
+                if(td1!=null){
+                    sql_code += "\u00a0\u00a0\u00a0\u00a0" + td1.value + ' ' + td3.options[td3.selectedIndex].text + '\n';
 
-                if(td4.checked){
-                    pk_s.push(td1.value);
+                    if(td4.checked){
+                        pk_s.push(td1.value);
+                    }
                 }
+                
             }
             sql_code += '\n);\n' ;
             //перебираем pk
@@ -271,7 +274,7 @@ function Sql(){
 
         }
 
-        //alert(sql_code);    //надо бы сделать нормальный вывод кода (мб в канве)
+        //alert(sql_code);    //для проверки
 
         // добавляем содкржимое при открытии модального окна
         modal.setBody(`<div id='sql_code' style='white-space:pre'>${sql_code}</div>`);
